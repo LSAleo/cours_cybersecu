@@ -25,10 +25,7 @@
                         <a class="nav-link active" href="#">Les derniers retards</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link active" href="inscription.php">Inscription</a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link active" href="#">Connexion</a>
+                        <a class="nav-link active" href="inscription.php">Inscription - Connexion</a>
                         </li>
                     </ul>
                 </div>

@@ -1,14 +1,24 @@
-// Ajout du calendrier en Jquery //
+let tabs = document.querySelectorAll(".tab-link:not(.desactive)");
 
-const date = document.querySelector('.datepicker');
-M.Datepicker.init(date,{format:'d-mmm-yyyy'});
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    unSelectAll();
+    tab.classList.add("active");
+    let ref = tab.getAttribute("data-ref");
+    document
+      .querySelector(`.tab-body[data-id="${ref}"]`)
+      .classList.add("active");
+  });
+});
 
-// Validation email de confirmation //
-
-function validateMail(p1, p2) {
-if (p1.value != p2.value || p1.value == '' || p2.value == '') {
-    p2.setCustomValidity('Email incorrect');
-} else {
-    p2.setCustomValidity('');
+function unSelectAll() {
+  tabs.forEach((tab) => {
+    tab.classList.remove("active");
+  });
+  let tabbodies = document.querySelectorAll(".tab-body");
+  tabbodies.forEach((tab) => {
+    tab.classList.remove("active");
+  });
 }
-}
+
+document.querySelector(".tab-link.active").click();

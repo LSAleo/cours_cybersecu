@@ -1,99 +1,59 @@
-<!DOCTYPE html>
-<html lang="fr" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Inscription</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="media/css/inscription.css">
-  </head>
-  <body>
+<html lang="en">
 
-    <header>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="media/css/inscription.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+  <script src="media/js/inscription.js" defer></script>
+  <title>Inscription - Connexion</title>
+</head>
+
+<body>
     <div class="container">
-      <div class="row">
-        <div class="col s12 m12 l12" style="text-align:center; color:white;">
-          <i class="large material-icons">add_circle</i>
-          <h1>Inscription</h1>
-          <p>Bienvenue sur la page d'inscription, veuillez remplir les informations ci-dessous</p>
-        </div>
-      </div>
-      <div class="row" id="blanc">
-        <div class="col l12 m12 s12" id="rectangle">
-          <form method="GET">
-            <!-- Champ prénom !-->
-
-            <div class="input-field col s6">
-            <label for="prenom">Prénom</label>
-            <input class="validate" name="prenom" type="text" value="" id="prenom" placeholder="François" required>
-            </div>
-
-            <!-- Champ nom !-->
-
-            <div class="input-field col s6">
-            <label for="nom">Nom de famille</label>
-            <input class="validate" type="text" value="" name="nom" id="nom" placeholder="Pignon" required text-capitalize>
-            </div>
-
-            <!-- Champ code postal !-->
-
-            <div class="input-field col s6">
-            <label for="code_postal">Code postal</label>
-            <input class="validate" type="number" value="" name="code_postal" id="code_postal" placeholder="69000" minlength="5" maxlength="5" required>
-            </div>
-
-            <!-- Champ ville !-->
-
-            <div class="input-field col s6">
-            <label for="ville">Ville</label>
-            <input class="validate" type="text" value="" name="ville" id="ville" minlength="3" placeholder="Lyon" required>
-            </div>
-
-            <!-- Champ date de naissance !-->
-            <div class="input-field col s12">
-            <label for="naissance">Date de naissance</label>
-            <input type="text" class="datepicker" name="naissance" placeholder="10/02/1980" class="validate" required>
-            </div>
-
-            <!-- Champ email !-->
-
-            <div class="input-field col s12">
-            <label for="email">Email</label>
-            <input class="validate" type="email" value="" name="email" id="p1" placeholder="lediner@decon.fr" required>
-            <input class="validate" type='email' placeholder="lediner@decon.fr" onfocus="validateMail(document.getElementById('p1'), this);" oninput="validateMail(document.getElementById('p1'), this);" required>
-            </div>
-
-            <!-- Champ CGV !-->
-
-            <div class="input-field col s12">
-              <p>
-                <label>
-                  <input class="with-gap" name="group1" type="radio"/>
-                  <span>J'accepte les conditions d'utilisations.</span>
-                </label>
-              </p>
-            </div>
-
-            <!-- Bouton envoyer !-->
-
-            <div class="input-field col s12">
-            <button class="btn waves-effect waves-light pulse" type="submit" name="action">Valider
-            <i class="material-icons right">send</i>
-            </button>
-            </div>
-
-          </form>
-
-        </div>
-
-      </div>
+    <div class="logo">
+      <i class="fas fa-user"></i>
     </div>
-  </header>
 
+    <div class="tab-body" data-id="connexion">
+      <form>
+        <div class="row">
+          <i class="far fa-user"></i>
+          <input type="email" class="input" placeholder="Adresse Mail">
+        </div>
+        <div class="row">
+          <i class="fas fa-lock"></i>
+          <input placeholder="Mot de Passe" type="password" class="input">
+        </div>
+        <a href="#" class="link">Mot de passe oublié ?</a>
+        <button class="btn" type="button">Connexion</button>
+      </form>
+    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script type="text/javascript" src="media/js/inscription.js">
-    </script>
-  </body>
+    <div class="tab-body" data-id="inscription">
+      <form>
+        <div class="row">
+          <i class="far fa-user"></i>
+          <input type="email" class="input" placeholder="Adresse Mail">
+        </div>
+        <div class="row">
+          <i class="fas fa-lock"></i>
+          <input type="password" class="input" placeholder="Mot de Passe">
+        </div>
+        <div class="row">
+          <i class="fas fa-lock"></i>
+          <input type="password" class="input" placeholder="Confirmer Mot de Passe">
+        </div>
+        <button class="btn" type="button">Inscription</button>
+      </form>
+    </div>
+
+    <div class="tab-footer">
+      <a class="tab-link active" data-ref="connexion" href="javascript:void(0)">Connexion</a>
+      <a class="tab-link" data-ref="inscription" href="javascript:void(0)">Inscription</a>
+      <a class="tab-link" data-ref="accueil" href="index.php">Accueil</a>
+    </div>
+  </div>
+</body>
+
 </html>
