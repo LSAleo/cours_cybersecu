@@ -33,9 +33,42 @@
         </nav>
     </header>
     <main>
-        <p>Bienvenue sur notre site dédié aux retards des trains de la SNCF.</p>
-        <p>Ici, vous pourrez trouver des informations sur les retards actuels, les causes probables, et bien plus encore.</p>
-        <p>N'hésitez pas à naviguer à travers les différentes sections pour obtenir les dernières mises à jour.</p>
+        <section class="section_retard">
+            <h2>Retards actuels</h2>
+            <p>Voici les dernières informations sur les retards actuels :</p>
+            <?php
+                // Simulation de retards (à remplacer par des données réelles)
+                $retards = [
+                    ['Train 1234', 'Paris - Marseille', '20 minutes'],
+                    ['Train 5678', 'Lyon - Bordeaux', '30 minutes'],
+                    ['Train 9101', 'Lille - Toulouse', '45 minutes']
+                ];
+
+                // Affichage des retards
+                foreach ($retards as $retard) {
+                    echo "<p>{$retard[0]} de {$retard[1]} avec un retard de {$retard[2]}.</p>";
+                }
+            ?>
+        </section>
+        <section class="section_causes">
+            <h2>Causes probables</h2>
+            <p>Les retards peuvent être causés par divers facteurs, tels que :</p>
+            <ul>
+                <li>Mauvaises conditions météorologiques</li>
+                <li>Problèmes techniques</li>
+                <li>Grèves</li>
+                <li>Travaux sur les voies</li>
+                <li>Surcharge de trafic</li>
+            </ul>
+        </section>
+        <section class="section_contact">
+            <h2>Contact</h2>
+            <p>Si vous avez des questions ou des préoccupations, vous pouvez contacter le service client de la SNCF :</p>
+            <ul>
+                <li>Téléphone : 01 23 45 67 89</li>
+                <li>Email : serviceclient@sncf.fr</li>
+            </ul>
+        </section>
     </main>
     <footer>
         <p>&copy; 2024 Les retards de la SNCF. Tous droits réservés.</p>
