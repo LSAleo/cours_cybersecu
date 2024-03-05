@@ -12,20 +12,20 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Les Retards SNCF</a>
+                <a class="navbar-brand texte_navbar" href="#">Les Retards SNCF</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.php">Accueil</a>
+                        <a class="nav-link active texte_navbar" aria-current="page" href="index.php">Accueil</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link active" href="#">Les derniers retards</a>
+                        <a class="nav-link active texte_navbar" href="#">Les derniers retards</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link active" href="inscription.php">Inscription - Connexion</a>
+                        <a class="nav-link active texte_navbar" href="inscription.php">Inscription - Connexion</a>
                         </li>
                     </ul>
                 </div>
@@ -33,6 +33,9 @@
         </nav>
     </header>
     <main>
+        <section class="image">
+            
+        </section>
         <section class="section_retard">
             <h2>Retards actuels</h2>
             <p>Voici les dernières informations sur les retards actuels :</p>

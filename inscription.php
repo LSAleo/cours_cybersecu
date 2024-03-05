@@ -58,6 +58,9 @@ require_once "connexion_bdd.php";
 </html>
 
 <?php
+
+/********************* INSCRIPTION ******************************/
+
 // Vérifier si le formulaire d'inscription a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $email = $_POST["email"];
@@ -89,42 +92,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $conn = null;
 }
 
+/***************************** CONNEXION ***************************/
 
-/*
-// Vérifier si le formulaire d'inscription a été soumis
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['inscription'])) {
-  // Récupérer les données du formulaire
-  $email = $_POST['email'];
-  $mot_de_passe = $_POST['mot_de_passe'];
-  $confirmation_mot_de_passe = $_POST['confirmation_mot_de_passe'];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['connexion'])) {
+  $email = $_POST["email"];
+  $mot_de_passe = $_POST["mot_de_passe"];
 
-  // Vérifier si les mots de passe correspondent
-  if ($mot_de_passe === $confirmation_mot_de_passe) {
-      // Préparer et exécuter la requête d'insertion
-      $requete = $connexion->prepare("INSERT INTO utilisateurs (email, mot_de_passe) VALUES (?, ?)");
-      $requete->bind_param("ss", $email, $mot_de_passe);
+  try {
+      // Requête pour sélectionner l'utilisateur correspondant à l'email donné
+      $sql = "SELECT * FROM utilisateurs WHERE email = :email";
+      $stmt = $conn->prepare($sql);
+      $stmt->bindParam(':email', $email);
+      $stmt->execute();
+      $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      if ($requete->execute()) {
-          echo "Inscription réussie!";
+      if ($user) {
+          // Vérifier si le mot de passe est correct
+          if (password_verify($mot_de_passe, $user['mot_de_passe'])) {
+              echo "Connexion réussie!";
+              // Vous pouvez également rediriger l'utilisateur vers une autre page ici
+          } else {
+              echo "Mot de passe incorrect.";
+          }
       } else {
-          echo "Erreur lors de l'inscription: " . $connexion->error;
+          echo "Utilisateur non trouvé.";
       }
-
-      // Fermer la requête
-      $requete->close();
-  } else {
-      echo "Les mots de passe ne correspondent pas.";
+  } catch(PDOException $e) {
+      echo "Erreur : " . $e->getMessage();
   }
 }
 
-// Fermer la connexion
-$connexion->close();
-
-
-
-<div class="row">
-          <i class="fas fa-lock"></i>
-          <input type="password" class="input" placeholder="Confirmer Mot de Passe" name="confirmation_mot_de_passe">
-        </div>
-*/
+$conn = null;
 ?>

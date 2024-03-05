@@ -2,30 +2,32 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-}
-
-header {
-    background-color: #0077cc;
-    color: #ffffff;
-    padding: 20px;
-    text-align: center;
+    overflow-x: hidden;
+    background-color: #F8F9FA;
 }
 
 main {
+    background-color: #F8F9FA;
+}
+
+header {
     padding: 20px;
-    background-color: #0077CC;
+    text-align: center;
+    position: fixed;
+    width: 100vw;
+    background: linear-gradient(0.25turn, #8A2A70, #DF242F);
+}
+
+header nav {
+    background: linear-gradient(0.25turn, #8A2A70, #DF242F);
+}
+
+.texte_navbar{
+    color: white !important;
 }
 
 section {
     margin-bottom: 30px;
-}
-
-.section_retard, .section_contact{
-    background-color: #DE2431;
-}
-
-.section_causes {
-    background-color: #0077cc;
 }
 
 h1, h2 {
@@ -33,11 +35,18 @@ h1, h2 {
 }
 
 footer {
-    background-color: #f4f4f4;
-    color: #333333;
+    background: linear-gradient(0.25turn, #8A2A70, #DF242F);
+    color: white !important;
     padding: 10px;
     text-align: center;
-    position: fixed;
     bottom: 0;
     width: 100%;
+}
+
+.image{
+    background-image: url('../Images/train.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 90vh;
+    width: 100vw;
 }
