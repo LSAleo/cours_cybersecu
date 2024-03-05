@@ -2,7 +2,7 @@
 // Connexion à la base de données
 $serveur = "localhost"; // Adresse du serveur MySQL (généralement localhost)
 $utilisateur = "root"; // Nom d'utilisateur MySQL
-$motdepasse = "0000"; // Mot de passe MySQL
+$motdepasse = ""; // Mot de passe MySQL
 $base_de_donnees = "cours_cybersecu"; // Nom de la base de données
 
 // Création de la connexion

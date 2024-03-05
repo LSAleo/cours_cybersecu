@@ -22,3 +22,12 @@ function unSelectAll() {
 }
 
 document.querySelector(".tab-link.active").click();
+
+
+var form = document.getElementById("inscriptionForm");
+
+  // Ajoutez un écouteur d'événements pour le submit du formulaire
+  form.addEventListener("submit", function(event) {
+    // Affichez un message dans la console du navigateur
+    console.log("Données envoyées avec succès");
+  });
