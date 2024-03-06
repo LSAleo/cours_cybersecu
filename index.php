@@ -34,9 +34,15 @@
     </header>
     <main>
         <section class="image">
-            
+            <div class="div_noire">
+                <a href="#section_retard">
+                    <button type="button" class="btn_retard">
+                        Voir les retards actuels 
+                    </button>
+                </a>
+            </div>
         </section>
-        <section class="section_retard">
+        <section class="section_retard" id="section_retard">
             <h2>Retards actuels</h2>
             <p>Voici les dernières informations sur les retards actuels :</p>
             <?php
