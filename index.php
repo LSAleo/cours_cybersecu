@@ -46,7 +46,6 @@
             <h2>Retards actuels</h2>
             <p>Voici les dernières informations sur les retards actuels :</p>
             <?php
-                // Simulation de retards (à remplacer par des données réelles)
                 $retards = [
                     ['Train 1234', 'Paris - Marseille', '20 minutes'],
                     ['Train 5678', 'Lyon - Bordeaux', '30 minutes'],
@@ -55,7 +54,7 @@
 
                 // Affichage des retards
                 foreach ($retards as $retard) {
-                    echo "<p>{$retard[0]} de {$retard[1]} avec un retard de {$retard[2]}.</p>";
+                    echo "<p>" . htmlspecialchars("{$retard[0]} de {$retard[1]} avec un retard de {$retard[2]}.") . "</p>";
                 }
             ?>
         </section>
