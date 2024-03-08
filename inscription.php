@@ -94,7 +94,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['inscription'])) {
         $stmt->bindParam(':mot_de_passe', $mot_de_passe_hashe);
         $stmt->execute();
 
-        echo "Inscription reussie !";
+        //echo "Inscription reussie !";
+        // message inutile puisque ça redirige mais je le garde pour voir ou est l'inscription réussie:)
+        header("Location: html/inscription_reussie.html");
+        exit;
     } catch(PDOException $e) {
         echo "Erreur : " . $e->getMessage();
     }
@@ -113,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['connexion'])) {
       $mot_de_passe = $_POST["mot_de_passe"];
 
       try {
-          // Requête pour selectionner l'utilisateur correspondant à l'email donne
+          // requete pour selectionner l'utilisateur correspondant à l'email donné
           $sql = "SELECT * FROM utilisateurs WHERE email = :email";
           $stmt = $conn->prepare($sql);
           $stmt->bindParam(':email', $email);
@@ -121,18 +124,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['connexion'])) {
           $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
           if ($user) {
-              // Creer le mot de passe sale avec le salt de l'utilisateur
+              // Creer le mdp salé avec le salt de l'utilisateur
               $mot_de_passe_sale = $mot_de_passe . $user['salt'];
 
-              // Verifier si le mot de passe est correct
+              // vérifier si le mdp est correct
               if (password_verify($mot_de_passe_sale, $user['mot_de_passe'])) {
-                  echo "Connexion reussie!";
-                  // Vous pouvez egalement rediriger l'utilisateur vers une autre page ici
+                  // echo "Connexion reussie!";
+                  // message inutile puisque ça redirige mais je le garde pour voir ou est la connexion réussie:)
+                  header("Location: html/connexion_reussie.html"); // redirige vers index.php quand la connexion est réussie
+                  exit;
               } else {
                   echo "Mot de passe incorrect.";
               }
           } else {
-              echo "Utilisateur non trouve.";
+              echo "Utilisateur non trouvé.";
           }
       } catch(PDOException $e) {
           echo "Erreur : " . $e->getMessage();
