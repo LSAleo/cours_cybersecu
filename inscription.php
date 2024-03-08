@@ -1,4 +1,10 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['csrf_token'])) {
+  $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // génération du token
+}
+
 require_once "connexion_bdd.php";
 ?>
 
@@ -29,6 +35,7 @@ require_once "connexion_bdd.php";
           <i class="fas fa-lock"></i>
           <input placeholder="Mot de Passe" type="password" class="input" name="mot_de_passe">
         </div>
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
         <a href="#" class="link">Mot de passe oublie ?</a>
         <button class="btn" type="submit" name="connexion">Connexion</button>
       </form>
@@ -44,6 +51,7 @@ require_once "connexion_bdd.php";
           <i class="fas fa-lock"></i>
           <input type="password" class="input" placeholder="Mot de Passe" name="mot_de_passe">
         </div>
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
         <button class="btn" type="submit" name="inscription">Inscription</button>
       </form>
     </div>
@@ -62,17 +70,14 @@ require_once "connexion_bdd.php";
 /********************* INSCRIPTION ******************************/
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['inscription'])) {
+  // vérifier si le token CSRF est présent et correspond à celui stocké coté serveur
+  if (!empty($_POST['csrf_token']) && hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
     $email = $_POST["email"];
     $mot_de_passe = $_POST["mot_de_passe"];
 
-    // Generer un salt aleatoire
-    $salt = bin2hex(random_bytes(16)); // 16 bytes = 128 bits
-
-    // Creer le mot de passe sale
-    $mot_de_passe_sale = $mot_de_passe . $salt;
-
-    // Hasher le mot de passe sale
-    $mot_de_passe_hashe = password_hash($mot_de_passe_sale, PASSWORD_BCRYPT);
+    $salt = bin2hex(random_bytes(16)); // génération d'un salt aléatoire
+    $mot_de_passe_sale = $mot_de_passe . $salt; // création du mot de passe salé
+    $mot_de_passe_hashe = password_hash($mot_de_passe_sale, PASSWORD_BCRYPT); //hachage du mdp salé
 
     $servername = "localhost";
     $username = "root";
@@ -93,45 +98,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['inscription'])) {
     } catch(PDOException $e) {
         echo "Erreur : " . $e->getMessage();
     }
-
-    $conn = null;
+  }else{
+    echo "Tentative de CSRF détectée lors de l'inscription.";
+    exit;
+  }
 }
 
 /***************************** CONNEXION ***************************/
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['connexion'])) {
-    $email = $_POST["email"];
-    $mot_de_passe = $_POST["mot_de_passe"];
+  // vérifier si le token CSRF est présent et correspond à celui stocké coté serveur
+  if (!empty($_POST['csrf_token']) && hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+      $email = $_POST["email"];
+      $mot_de_passe = $_POST["mot_de_passe"];
 
-    try {
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      try {
+          // Requête pour selectionner l'utilisateur correspondant à l'email donne
+          $sql = "SELECT * FROM utilisateurs WHERE email = :email";
+          $stmt = $conn->prepare($sql);
+          $stmt->bindParam(':email', $email);
+          $stmt->execute();
+          $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Requête pour selectionner l'utilisateur correspondant à l'email donne
-        $sql = "SELECT * FROM utilisateurs WHERE email = :email";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+          if ($user) {
+              // Creer le mot de passe sale avec le salt de l'utilisateur
+              $mot_de_passe_sale = $mot_de_passe . $user['salt'];
 
-        if ($user) {
-            // Creer le mot de passe sale avec le salt de l'utilisateur
-            $mot_de_passe_sale = $mot_de_passe . $user['salt'];
-
-            // Verifier si le mot de passe est correct
-            if (password_verify($mot_de_passe_sale, $user['mot_de_passe'])) {
-                echo "Connexion reussie!";
-                // Vous pouvez egalement rediriger l'utilisateur vers une autre page ici
-            } else {
-                echo "Mot de passe incorrect.";
-            }
-        } else {
-            echo "Utilisateur non trouve.";
-        }
-    } catch(PDOException $e) {
-        echo "Erreur : " . $e->getMessage();
-    }
+              // Verifier si le mot de passe est correct
+              if (password_verify($mot_de_passe_sale, $user['mot_de_passe'])) {
+                  echo "Connexion reussie!";
+                  // Vous pouvez egalement rediriger l'utilisateur vers une autre page ici
+              } else {
+                  echo "Mot de passe incorrect.";
+              }
+          } else {
+              echo "Utilisateur non trouve.";
+          }
+      } catch(PDOException $e) {
+          echo "Erreur : " . $e->getMessage();
+      }
+  } else {
+      echo "Tentative de CSRF détectée lors de la connexion.";
+      exit;
+  }
 }
 
-$conn = null;
+// génère et stocke un nouveau token
+$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 ?>
