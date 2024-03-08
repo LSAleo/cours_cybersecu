@@ -1,4 +1,7 @@
 <?php
+// Ce fichier ne sert à RIEN, QUE DALLE
+
+
 // Connexion à la base de données
 $serveur = "localhost"; // Adresse du serveur MySQL (généralement localhost)
 $utilisateur = "root"; // Nom d'utilisateur MySQL
@@ -24,7 +27,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['inscription'])) {
     $requete->bind_param("ss", $email, $mot_de_passe);
 
     if ($requete->execute()) {
-        echo "Inscription réussie!";
+        //echo "Inscription reussie !";
+        // message inutile puisque ça redirige mais je le garde pour voir ou est l'inscription réussie:)
+        header("location: http://localhost/Mars/cours_cybersecu/html/inscription_reussie.html");
+        exit;
     } else {
         echo "Erreur lors de l'inscription: " . $connexion->error;
     }

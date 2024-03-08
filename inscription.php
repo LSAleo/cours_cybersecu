@@ -5,7 +5,6 @@ if (!isset($_SESSION['csrf_token'])) {
   $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // génération du token
 }
 
-require_once "connexion_bdd.php";
 ?>
 
 <html lang="fr">
@@ -87,16 +86,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['inscription'])) {
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $sql = "INSERT INTO utilisateurs (email, mot_de_passe) VALUES (:email, :mot_de_passe)";
+        // var_dump($mot_de_passe_hashe);
+        // exit;
+        $sql = "INSERT INTO utilisateurs (email, mot_de_passe) VALUES (:email, :mot_de_passe_hashe)";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':mot_de_passe', $mot_de_passe_hashe);
+        $stmt->bindParam(':mot_de_passe_hashe', $mot_de_passe_hashe);
         $stmt->execute();
 
         //echo "Inscription reussie !";
         // message inutile puisque ça redirige mais je le garde pour voir ou est l'inscription réussie:)
-        header("Location: html/inscription_reussie.html");
+        header("location: http://localhost/Mars/cours_cybersecu/html/inscription_reussie.html");
         exit;
     } catch(PDOException $e) {
         echo "Erreur : " . $e->getMessage();
@@ -115,7 +115,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['connexion'])) {
       $email = $_POST["email"];
       $mot_de_passe = $_POST["mot_de_passe"];
 
+      $servername = "localhost";
+      $username = "root";
+      $password = "";
+      $dbname = "cours_cybersecu";
+
       try {
+          $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+          $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
           // requete pour selectionner l'utilisateur correspondant à l'email donné
           $sql = "SELECT * FROM utilisateurs WHERE email = :email";
           $stmt = $conn->prepare($sql);
@@ -128,10 +136,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['connexion'])) {
               $mot_de_passe_sale = $mot_de_passe . $user['salt'];
 
               // vérifier si le mdp est correct
-              if (password_verify($mot_de_passe_sale, $user['mot_de_passe'])) {
+              if (password_verify($mot_de_passe, $user['mot_de_passe'])) { // $mot_de_passe_sale ??
                   // echo "Connexion reussie!";
                   // message inutile puisque ça redirige mais je le garde pour voir ou est la connexion réussie:)
-                  header("Location: html/connexion_reussie.html"); // redirige vers index.php quand la connexion est réussie
+                  header("location: http://localhost/Mars/cours_cybersecu/html/connexion_reussie.html"); // redirige vers index.php quand la connexion est réussie
                   exit;
               } else {
                   echo "Mot de passe incorrect.";
