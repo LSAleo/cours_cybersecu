@@ -94,13 +94,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['inscription'])) {
         $stmt->bindParam(':mot_de_passe_hashe', $mot_de_passe_hashe);
         $stmt->execute();
 
-        //echo "Inscription reussie !";
+        // echo "Inscription reussie !";
         // message inutile puisque ça redirige mais je le garde pour voir ou est l'inscription réussie:)
         header("location: http://localhost/Mars/cours_cybersecu/html/inscription_reussie.html");
         exit;
     } catch(PDOException $e) {
         echo "Erreur : " . $e->getMessage();
     }
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
   }else{
     echo "Tentative de CSRF détectée lors de l'inscription.";
     exit;
@@ -133,7 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['connexion'])) {
 
           if ($user) {
               // Creer le mdp salé avec le salt de l'utilisateur
-              $mot_de_passe_sale = $mot_de_passe . $user['salt'];
+              // $mot_de_passe_sale = $mot_de_passe . $user['salt'];
 
               // vérifier si le mdp est correct
               if (password_verify($mot_de_passe, $user['mot_de_passe'])) { // $mot_de_passe_sale ??
@@ -150,6 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['connexion'])) {
       } catch(PDOException $e) {
           echo "Erreur : " . $e->getMessage();
       }
+      $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
   } else {
       echo "Tentative de CSRF détectée lors de la connexion.";
       exit;
@@ -157,5 +159,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['connexion'])) {
 }
 
 // génère et stocke un nouveau token
-$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+// $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 ?>
